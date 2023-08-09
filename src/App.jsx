@@ -2,23 +2,19 @@ import { Form, Slider, InputNumber, Select, Button, Table } from "antd";
 import React from "react";
 import { faker } from "@faker-js/faker";
 import { columns } from "./utils/columns";
-// import { CSVLink } from "react-csv";
-// import { headers } from "./utils/headersCVS ";
 import CVSLink from "./cvs-link/CVSLink";
-import SkrollBtn from "./scroll-btn/SkrollBtn";
-
-import ScrollToTopButton from "./scroll-btn/SkrollBtn";
+import ScrollToTopButton from "./components/scroll-btn/SkrollBtn";
 const App = () => {
   const [region, setRegion] = React.useState("az");
   const [errorCount, setErrorCount] = React.useState(0);
   const [seed, setSeed] = React.useState("");
   const [users, setUsers] = React.useState([]);
 
-  const handleSeedChange = (e) => {
+  const onSeedChange = (e) => {
     setSeed(e);
   };
 
-  const handleRandomSeed = () => {
+  const onRandomSeed = () => {
     setSeed(Math.floor(Math.random() * 100000));
   };
 
@@ -46,14 +42,14 @@ const App = () => {
             : faker.phone.number(),
       };
 
-      handleError(user);
+      getError(user);
       newUsers.push(user);
     }
 
     return newUsers;
   };
 
-  const handleError = (user) => {
+  const getError = (user) => {
     const alphabet =
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -63,7 +59,6 @@ const App = () => {
         "address",
         "phone",
       ]);
-      console.log(field);
       const value = user[field];
       console.log(value, "value");
       if (value.length > 0) {
@@ -93,7 +88,7 @@ const App = () => {
     setUsers(generateUsers(20));
   }, [region, errorCount, seed]);
 
-  const handleScroll = (e) => {
+  const onHandleScroll = (e) => {
     const bottom =
       Math.floor(e.target.scrollHeight - e.target.scrollTop) ===
       e.target.clientHeight;
@@ -101,7 +96,6 @@ const App = () => {
       setUsers([...users, ...generateUsers(10, users.length)]);
     }
   };
-
   return (
     <>
       <div className="p-11">
@@ -146,28 +140,29 @@ const App = () => {
               <InputNumber
                 className="mr-3 flex-auto"
                 value={seed}
-                onChange={handleSeedChange}
+                onChange={onSeedChange}
               />
-              <Button onClick={handleRandomSeed}>Random</Button>
+              <Button onClick={onRandomSeed}>Random</Button>
             </div>
           </Form.Item>
         </Form>
+        <div className="mb-6">
+          <ScrollToTopButton />
+          <CVSLink users={users} />
+        </div>
 
         <div
-          onScroll={handleScroll}
+          onScroll={onHandleScroll}
           className="overflow-auto relative"
           style={{ height: "570px" }}
         >
-          <div className="mb-6">
-            <ScrollToTopButton />
-            <CVSLink users={users} />
-          </div>
           <Table
             columns={columns}
             dataSource={users}
             size="large"
             pagination={false}
             bordered
+            scroll={true}
           />
         </div>
       </div>
@@ -176,4 +171,3 @@ const App = () => {
 };
 
 export default App;
-// rename
