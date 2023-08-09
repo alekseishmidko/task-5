@@ -1,5 +1,5 @@
 import { CSVLink } from "react-csv";
-import { headers } from "../utils/headersCVS";
+import { headers } from "../../utils/headersCVS";
 const CVSLink = ({ users }) => {
   return (
     <div>

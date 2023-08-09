@@ -2,7 +2,7 @@ import { Form, Slider, InputNumber, Select, Button, Table } from "antd";
 import React from "react";
 import { faker } from "@faker-js/faker";
 import { columns } from "./utils/columns";
-import CVSLink from "./cvs-link/CVSLink";
+import CVSLink from "./components/cvs-link/CVSLink";
 import ScrollToTopButton from "./components/scroll-btn/SkrollBtn";
 const App = () => {
   const [region, setRegion] = React.useState("az");
